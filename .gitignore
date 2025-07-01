@@ -1,0 +1,55 @@
+# Global ignores
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.git
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS-generated files
+*.swp
+*.swo
+*.swn
+
+# Lockfiles (ignore if not committing them)
+package-lock.json
+yarn.lock
+
+# PNPM-specific
+.pnpm-store/
+**/.pnpm-debug.log
+pnpm-lock.yaml  # Uncomment if you don't want to commit lockfile
+
+##############
+# Client (Next.js)
+##############
+client/.next/
+client/node_modules/
+client/.env
+client/.env.local
+client/public/static/cache/
+client/out/           # for `next export`
+client/.pnpm-store/
+client/pnpm-lock.yaml
+client/**/.pnpm-debug.log
+
+##############
+# Server (Node.js/Express/etc.)
+##############
+server/node_modules/
+server/dist/
+server/build/
+server/.env
+server/coverage/
+server/tmp/
+server/logs/
+server/.pnpm-store/
+server/pnpm-lock.yaml
+server/**/.pnpm-debug.log
