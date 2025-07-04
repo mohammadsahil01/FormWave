@@ -25,7 +25,7 @@ yarn.lock
 # PNPM-specific
 .pnpm-store/
 **/.pnpm-debug.log
-pnpm-lock.yaml  # Uncomment if you don't want to commit lockfile
+#pnpm-lock.yaml  # Uncomment if you don't want to commit lockfile
 
 ##############
 # Client (Next.js)
@@ -37,7 +37,7 @@ client/.env.local
 client/public/static/cache/
 client/out/           # for `next export`
 client/.pnpm-store/
-client/pnpm-lock.yaml
+# client/pnpm-lock.yaml
 client/**/.pnpm-debug.log
 
 ##############
@@ -51,5 +51,5 @@ server/coverage/
 server/tmp/
 server/logs/
 server/.pnpm-store/
-server/pnpm-lock.yaml
+# server/pnpm-lock.yaml
 server/**/.pnpm-debug.log
