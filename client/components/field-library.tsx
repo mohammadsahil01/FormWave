@@ -1,8 +1,13 @@
-'use client';
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { FormField } from '@/types/form';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { FormField } from "@/types/form";
 import {
   Type,
   Mail,
@@ -13,98 +18,128 @@ import {
   Hash,
   Calendar,
   Upload,
-} from 'lucide-react';
+} from "lucide-react";
+import { useState } from "react";
 
-interface FieldLibraryProps {
-  onAddField: (type: FormField['type']) => void;
+interface FieldLibraryModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onAddField: (type: FormField["type"]) => void;
 }
 
 const fieldTypes = [
   {
-    type: 'text' as const,
-    label: 'Text Input',
+    type: "text" as const,
+    label: "Text Input",
     icon: Type,
-    description: 'Single line text input',
+    description: "Single line text input",
   },
   {
-    type: 'email' as const,
-    label: 'Email',
+    type: "email" as const,
+    label: "Email",
     icon: Mail,
-    description: 'Email address input',
+    description: "Email address input",
   },
   {
-    type: 'textarea' as const,
-    label: 'Textarea',
+    type: "textarea" as const,
+    label: "Textarea",
     icon: FileText,
-    description: 'Multi-line text input',
+    description: "Multi-line text input",
   },
   {
-    type: 'select' as const,
-    label: 'Dropdown',
+    type: "select" as const,
+    label: "Dropdown",
     icon: ChevronDown,
-    description: 'Dropdown selection',
+    description: "Dropdown selection",
   },
   {
-    type: 'radio' as const,
-    label: 'Radio Buttons',
+    type: "radio" as const,
+    label: "Radio Buttons",
     icon: Circle,
-    description: 'Single choice selection',
+    description: "Single choice selection",
   },
   {
-    type: 'checkbox' as const,
-    label: 'Checkboxes',
+    type: "checkbox" as const,
+    label: "Checkboxes",
     icon: Square,
-    description: 'Multiple choice selection',
+    description: "Multiple choice selection",
   },
   {
-    type: 'number' as const,
-    label: 'Number',
+    type: "number" as const,
+    label: "Number",
     icon: Hash,
-    description: 'Numeric input',
+    description: "Numeric input",
   },
   {
-    type: 'date' as const,
-    label: 'Date',
+    type: "date" as const,
+    label: "Date",
     icon: Calendar,
-    description: 'Date picker',
+    description: "Date picker",
   },
   {
-    type: 'file' as const,
-    label: 'File Upload',
+    type: "file" as const,
+    label: "File Upload",
     icon: Upload,
-    description: 'File upload input',
+    description: "File upload input",
   },
 ];
 
-export function FieldLibrary({ onAddField }: FieldLibraryProps) {
+export function FieldLibraryModal({
+  isOpen,
+  onClose,
+  onAddField,
+}: FieldLibraryModalProps) {
+  const [isAdding, setIsAdding] = useState<string | null>(null);
+
+  const handleAddField = (type: FormField["type"]) => {
+    setIsAdding(type);
+    onAddField(type);
+    // Optional: auto-close after selection
+    // onClose();
+  };
+
   return (
-    <Card className="border-border bg-card">
-      <CardHeader>
-        <CardTitle className="text-lg">Field Library</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-          {fieldTypes.map((fieldType) => {
-            const Icon = fieldType.icon;
-            return (
-              <Button
-                key={fieldType.type}
-                variant="outline"
-                className="h-auto p-3 flex flex-col items-center space-y-2 hover:bg-primary/5 hover:border-primary/30 transition-all hover:scale-105 border-border"
-                onClick={() => onAddField(fieldType.type)}
-              >
-                <Icon className="w-5 h-5 text-muted-foreground" />
-                <div className="text-center">
-                  <div className="font-medium text-sm text-foreground">{fieldType.label}</div>
-                  <div className="text-xs text-muted-foreground hidden lg:block">
-                    {fieldType.description}
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent
+        className="sm:max-w-lg p-0 overflow-hidden"
+        onInteractOutside={(e) => {
+          if (isAdding) e.preventDefault(); // Prevent closing during async action
+        }}
+      >
+        <DialogHeader className="px-6 pt-6 pb-0">
+          <DialogTitle className="text-lg">Add a Field</DialogTitle>
+        </DialogHeader>
+
+        <div className="px-6 pb-6">
+          <p className="text-sm text-muted-foreground mb-4">
+            Choose a field type to add to your form.
+          </p>
+
+          <div className="grid grid-cols-2 gap-3 max-h-80 overflow-y-auto pr-1">
+            {fieldTypes.map((fieldType) => {
+              const Icon = fieldType.icon;
+              return (
+                <Button
+                  key={fieldType.type}
+                  variant="outline"
+                  className="h-auto p-3 flex flex-col items-center space-y-2 hover:bg-primary/10 hover:border-primary border-border transition-all"
+                  onClick={() => handleAddField(fieldType.type)}
+                >
+                  <Icon className="w-5 h-5 text-muted-foreground" />
+                  <div className="text-center">
+                    <div className="font-medium text-sm text-foreground">
+                      {fieldType.label}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {fieldType.description}
+                    </div>
                   </div>
-                </div>
-              </Button>
-            );
-          })}
+                </Button>
+              );
+            })}
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 }

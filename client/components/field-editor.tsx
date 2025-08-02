@@ -1,16 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { FormField } from '@/types/form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { useState } from "react";
+import { FormField } from "@/types/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { X, Plus, Trash2 } from "lucide-react";
 
 interface FieldEditorProps {
   field: FormField;
@@ -28,7 +26,10 @@ export function FieldEditor({ field, onUpdate, onClose }: FieldEditorProps) {
   };
 
   const addOption = () => {
-    const newOptions = [...(localField.options || []), `Option ${(localField.options?.length || 0) + 1}`];
+    const newOptions = [
+      ...(localField.options || []),
+      `Option ${(localField.options?.length || 0) + 1}`,
+    ];
     handleUpdate({ options: newOptions });
   };
 
@@ -43,14 +44,21 @@ export function FieldEditor({ field, onUpdate, onClose }: FieldEditorProps) {
     handleUpdate({ options: newOptions });
   };
 
-  const hasOptions = ['select', 'radio', 'checkbox'].includes(field.type);
-  const hasValidation = ['text', 'email', 'number', 'textarea'].includes(field.type);
+  const hasOptions = ["select", "radio", "checkbox"].includes(field.type);
+  const hasValidation = ["text", "email", "number", "textarea"].includes(
+    field.type
+  );
 
   return (
     <div className="h-full flex flex-col bg-card">
       <div className="flex items-center justify-between p-4 border-b border-border">
         <h3 className="text-lg font-semibold text-foreground">Edit Field</h3>
-        <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-muted">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onClose}
+          className="hover:bg-muted"
+        >
           <X className="w-4 h-4" />
         </Button>
       </div>
@@ -59,11 +67,15 @@ export function FieldEditor({ field, onUpdate, onClose }: FieldEditorProps) {
         {/* Basic Settings */}
         <Card className="border-border bg-background">
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Basic Settings</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Basic Settings
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="label" className="text-foreground">Field Label</Label>
+              <Label htmlFor="label" className="text-foreground">
+                Field Label
+              </Label>
               <Input
                 id="label"
                 value={localField.label}
@@ -73,13 +85,17 @@ export function FieldEditor({ field, onUpdate, onClose }: FieldEditorProps) {
               />
             </div>
 
-            {field.type !== 'checkbox' && (
+            {field.type !== "checkbox" && (
               <div className="space-y-2">
-                <Label htmlFor="placeholder" className="text-foreground">Placeholder Text</Label>
+                <Label htmlFor="placeholder" className="text-foreground">
+                  Placeholder Text
+                </Label>
                 <Input
                   id="placeholder"
-                  value={localField.placeholder || ''}
-                  onChange={(e) => handleUpdate({ placeholder: e.target.value })}
+                  value={localField.placeholder || ""}
+                  onChange={(e) =>
+                    handleUpdate({ placeholder: e.target.value })
+                  }
                   placeholder="Enter placeholder text"
                   className="bg-background border-border"
                 />
@@ -89,11 +105,15 @@ export function FieldEditor({ field, onUpdate, onClose }: FieldEditorProps) {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label className="text-foreground">Required Field</Label>
-                <p className="text-sm text-muted-foreground">Users must fill this field</p>
+                <p className="text-sm text-muted-foreground">
+                  Users must fill this field
+                </p>
               </div>
               <Switch
                 checked={localField.required}
-                onCheckedChange={(checked) => handleUpdate({ required: checked })}
+                onCheckedChange={(checked) =>
+                  handleUpdate({ required: checked })
+                }
               />
             </div>
           </CardContent>
@@ -147,88 +167,116 @@ export function FieldEditor({ field, onUpdate, onClose }: FieldEditorProps) {
               <CardTitle className="text-sm font-medium">Validation</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {field.type === 'text' || field.type === 'textarea' ? (
+              {field.type === "text" || field.type === "textarea" ? (
                 <>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-2">
-                      <Label htmlFor="minLength" className="text-foreground">Min Length</Label>
+                      <Label htmlFor="minLength" className="text-foreground">
+                        Min Length
+                      </Label>
                       <Input
                         id="minLength"
                         type="number"
-                        value={localField.validation?.min || ''}
-                        onChange={(e) => handleUpdate({
-                          validation: {
-                            ...localField.validation,
-                            min: e.target.value ? parseInt(e.target.value) : undefined
-                          }
-                        })}
+                        value={localField.validation?.min || ""}
+                        onChange={(e) =>
+                          handleUpdate({
+                            validation: {
+                              ...localField.validation,
+                              min: e.target.value
+                                ? parseInt(e.target.value)
+                                : undefined,
+                            },
+                          })
+                        }
                         placeholder="0"
                         className="bg-background border-border"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="maxLength" className="text-foreground">Max Length</Label>
+                      <Label htmlFor="maxLength" className="text-foreground">
+                        Max Length
+                      </Label>
                       <Input
                         id="maxLength"
                         type="number"
-                        value={localField.validation?.max || ''}
-                        onChange={(e) => handleUpdate({
-                          validation: {
-                            ...localField.validation,
-                            max: e.target.value ? parseInt(e.target.value) : undefined
-                          }
-                        })}
+                        value={localField.validation?.max || ""}
+                        onChange={(e) =>
+                          handleUpdate({
+                            validation: {
+                              ...localField.validation,
+                              max: e.target.value
+                                ? parseInt(e.target.value)
+                                : undefined,
+                            },
+                          })
+                        }
                         placeholder="∞"
                         className="bg-background border-border"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="pattern" className="text-foreground">Pattern (Regex)</Label>
+                    <Label htmlFor="pattern" className="text-foreground">
+                      Pattern (Regex)
+                    </Label>
                     <Input
                       id="pattern"
-                      value={localField.validation?.pattern || ''}
-                      onChange={(e) => handleUpdate({
-                        validation: {
-                          ...localField.validation,
-                          pattern: e.target.value
-                        }
-                      })}
+                      value={localField.validation?.pattern || ""}
+                      onChange={(e) =>
+                        handleUpdate({
+                          validation: {
+                            ...localField.validation,
+                            pattern: e.target.value,
+                          },
+                        })
+                      }
                       placeholder="^[a-zA-Z0-9]*$"
                       className="bg-background border-border"
                     />
                   </div>
                 </>
-              ) : field.type === 'number' ? (
+              ) : field.type === "number" ? (
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-2">
-                    <Label htmlFor="minValue" className="text-foreground">Min Value</Label>
+                    <Label htmlFor="minValue" className="text-foreground">
+                      Min Value
+                    </Label>
                     <Input
                       id="minValue"
                       type="number"
-                      value={localField.validation?.min || ''}
-                      onChange={(e) => handleUpdate({
-                        validation: {
-                          ...localField.validation,
-                          min: e.target.value ? parseInt(e.target.value) : undefined
-                        }
-                      })}
+                      value={localField.validation?.min || ""}
+                      onChange={(e) =>
+                        handleUpdate({
+                          validation: {
+                            ...localField.validation,
+                            min: e.target.value
+                              ? parseInt(e.target.value)
+                              : undefined,
+                          },
+                        })
+                      }
                       placeholder="0"
                       className="bg-background border-border"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="maxValue" className="text-foreground">Max Value</Label>
+                    <Label htmlFor="maxValue" className="text-foreground">
+                      Max Value
+                    </Label>
                     <Input
                       id="maxValue"
                       type="number"
-                      value={localField.validation?.max || ''}
-                      onChange={(e) => handleUpdate({
-                        validation: {
-                          ...localField.validation,
-                          max: e.target.value ? parseInt(e.target.value) : undefined
-                        }
-                      })}
+                      value={localField.validation?.max || ""}
+                      onChange={(e) =>
+                        handleUpdate({
+                          validation: {
+                            ...localField.validation,
+                            max: e.target.value
+                              ? parseInt(e.target.value)
+                              : undefined,
+                          },
+                        })
+                      }
                       placeholder="∞"
                       className="bg-background border-border"
                     />
@@ -242,12 +290,16 @@ export function FieldEditor({ field, onUpdate, onClose }: FieldEditorProps) {
         {/* Field Info */}
         <Card className="border-border bg-background">
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Field Information</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Field Information
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Field Type</span>
+                <span className="text-sm text-muted-foreground">
+                  Field Type
+                </span>
                 <Badge variant="outline" className="capitalize border-border">
                   {field.type}
                 </Badge>
